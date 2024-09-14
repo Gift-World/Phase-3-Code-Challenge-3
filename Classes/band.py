@@ -1,4 +1,5 @@
 from __init__ import CURSOR,CONN
+from concert import Concert
 
 class Band:
     
