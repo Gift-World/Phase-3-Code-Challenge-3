@@ -1,6 +1,6 @@
 import sqlite3
 
-conn=sqlite3.connect("concerts_database.db")
+conn=sqlite3.connect("concerts_database_database.db")
 cursor=conn.cursor()
 
 
@@ -38,7 +38,7 @@ conn.close()
 
 
 def inserting_data():
-    conn = sqlite3.connect('concerts_database.db')
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     
     
@@ -57,8 +57,8 @@ def inserting_data():
 inserting_data()
 
 
-def concerts(band_id):
-    conn = sqlite3.connect('concerts_database.db')
+def get_all_concerts(band_id):
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT * 
     FROM concerts
@@ -71,8 +71,8 @@ def concerts(band_id):
     return rows
   
 
-def bands(venue_id):
-    conn = sqlite3.connect('concerts_database.db')
+def get_distinct_bands_and_join(venue_id):
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT DISTINCT bands.name FROM concerts JOIN bands ON concerts.band_id=bands.id
     WHERE concerts.venue_id = ?;
@@ -83,8 +83,8 @@ def bands(venue_id):
 
     return band
  
-def venues(band_id):
-    conn = sqlite3.connect('concerts_database.db')
+def get_distinct_venues(band_id):
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT DISTINCT venues.title FROM concerts JOIN venues ON concerts.venue_id=venues.id
     WHERE concerts.band_id = ?;
@@ -96,8 +96,8 @@ def venues(band_id):
     return venue
 
 
-def venue_concerts(venue_id):
-    conn = sqlite3.connect('concerts_database.db')
+def get_venue_concerts(venue_id):
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT * FROM concerts
     WHERE venue_id = ?;
@@ -109,8 +109,8 @@ def venue_concerts(venue_id):
     return concert
 
 
-def concert_band(concert_id):
-    conn = sqlite3.connect('concerts_database.db')
+def get_concert_band(concert_id):
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT bands.name,bands.hometown FROM concerts JOIN bands ON concerts.band_id=bands.id
     WHERE concerts.id = ?;
@@ -121,8 +121,8 @@ def concert_band(concert_id):
 
     return band
   
-def concert_venue(concert_id):
-    conn = sqlite3.connect('concerts_database.db')
+def get_concert_venue(concert_id):
+    conn = sqlite3.connect('concerts_database_database.db')
     cursor = conn.cursor()
     cursor.execute('''SELECT venues.title,venues.city FROM concerts JOIN venues ON concerts.venue_id=venues.id
     WHERE concerts.id = ?;
@@ -133,4 +133,120 @@ def concert_venue(concert_id):
 
     return venue  
  
-     
+def Concert_hometown_show(concert_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    SELECT bands.hometown, venues.city 
+    FROM concerts 
+    JOIN bands ON concerts.band_id = bands.id 
+    JOIN venues ON concerts.venue_id = venues.id 
+    WHERE concerts.id = ?;
+    ''', (concert_id,))
+    
+    hometown, city = cursor.fetchone()
+    conn.close()
+    return hometown == city
+
+def concert_introduction(concert_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    SELECT bands.name, bands.hometown, venues.city 
+    FROM concerts 
+    JOIN bands ON concerts.band_id = bands.id 
+    JOIN venues ON concerts.venue_id = venues.id 
+    WHERE concerts.id = ?;
+    ''', (concert_id,))
+    
+    band_name, band_hometown, venue_city = cursor.fetchone()
+    conn.close()
+    print(f"Hello {venue_city}!!!, We are {band_name} and we're from {band_hometown}")
+
+
+def Band_play_in_venue(band_id, venue_id, date):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    INSERT INTO concerts (band_id, venue_id, date) VALUES (?, ?, ?);
+    ''', (band_id, venue_id, date))
+    
+    conn.commit()
+    conn.close()
+
+
+def Band_all_introductions(band_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+    SELECT DISTINCT bands.name, bands.hometown, venues.city
+    FROM concerts
+    JOIN bands ON concerts.band_id = bands.id
+    JOIN venues ON concerts.venue_id = venues.id
+    WHERE bands.id = ?
+    LIMIT 1;  -- Ensure we only fetch one venue for the introduction
+    ''', (band_id,))
+    
+    band_name, band_hometown, venue_city = cursor.fetchone()
+    print(f"Hello {venue_city}!!!!! We are {band_name} and we're from {band_hometown}")
+    
+    conn.close()
+
+
+
+def Band_most_performances():
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    SELECT bands.name, COUNT(concerts.id) AS num_concerts 
+    FROM concerts 
+    JOIN bands ON concerts.band_id = bands.id 
+    GROUP BY bands.id 
+    ORDER BY num_concerts DESC 
+    LIMIT 1;
+    ''')
+    
+    band = cursor.fetchone()
+    conn.close()
+    return band
+
+
+def Venue_concert_on_date(venue_id, date):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    SELECT * FROM concerts 
+    WHERE venue_id = ? AND date = ? 
+    LIMIT 1;
+    ''', (venue_id, date))
+    
+    concert = cursor.fetchone()
+    conn.close()
+    return concert
+
+def Venue_most_frequent_band(venue_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    SELECT bands.name, COUNT(concerts.id) AS num_concerts 
+    FROM concerts 
+    JOIN bands ON concerts.band_id = bands.id 
+    WHERE concerts.venue_id = ? 
+    GROUP BY bands.id 
+    ORDER BY num_concerts DESC 
+    LIMIT 1;
+    ''', (venue_id,))
+    
+    band = cursor.fetchone()
+    conn.close()
+    return band
+
+concert_introduction(1)
+Band_all_introductions(2)       
