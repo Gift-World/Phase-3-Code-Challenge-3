@@ -37,7 +37,7 @@ conn.close()
 
 
 
-def insert_data():
+def inserting_data():
     conn = sqlite3.connect('concerts_database.db')
     cursor = conn.cursor()
     
@@ -54,7 +54,7 @@ def insert_data():
     conn.commit()
     conn.close()
 
-insert_data()
+inserting_data()
 
 
 def concerts(band_id):
@@ -94,6 +94,43 @@ def venues(band_id):
     conn.close()
 
     return venue
- 
+
+
+def venue_concerts(venue_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM concerts
+    WHERE venue_id = ?;
+        ''', (venue_id,))
+    concert = cursor.fetchall()
+
+    conn.close()
+
+    return concert
+
+
+def concert_band(concert_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT bands.name,bands.hometown FROM concerts JOIN bands ON concerts.band_id=bands.id
+    WHERE concerts.id = ?;
+        ''', (concert_id,))
+    band = cursor.fetchall()
+
+    conn.close()
+
+    return band
+  
+def concert_venue(concert_id):
+    conn = sqlite3.connect('concerts_database.db')
+    cursor = conn.cursor()
+    cursor.execute('''SELECT venues.title,venues.city FROM concerts JOIN venues ON concerts.venue_id=venues.id
+    WHERE concerts.id = ?;
+        ''', (concert_id,))
+    venue = cursor.fetchall()
+
+    conn.close()
+
+    return venue  
  
      
