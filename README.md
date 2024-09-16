@@ -39,8 +39,10 @@ The application consists of the following tables:
 - `date` (String representing the concert date)
 
 ## Installation
-1. Clone the repository using the command below.
-        git@github.com:Gift-World/Phase-3-Code-Challenge-3.git
+1. Clone the repository using the command below:
+
+        git clone  git@github.com:Gift-World/Phase-3-Code-Challenge-3.git
+       
 
 2. Run the application using the command below:
         python concerts_database.py
