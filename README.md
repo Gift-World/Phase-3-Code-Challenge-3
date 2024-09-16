@@ -70,5 +70,5 @@ You will need the following installed to run this project:
 
     This script will create the `bands`, `venues`, and `concerts` tables in an SQLite database named `concerts_database.db`.
 
-#
+
 
