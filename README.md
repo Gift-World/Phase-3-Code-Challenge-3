@@ -55,15 +55,11 @@ You will need the following installed to run this project:
 - sqlite3 library (built into Python) or psycopg2 for - - PostgreSQL
 
 
-## Setup
-1. Clone the repository
-        git@github.com:Gift-World/Phase-3-Code-Challenge-3.git
-        
 
 ### 2.Set up the database      
 #### Using SQLite
 
-1. Create the SQLite database and tables by running the provided migration script:
+1. Creates the SQLite database and tables by running the provided migration script:
 
     ```bash
     python concerts_database.py
