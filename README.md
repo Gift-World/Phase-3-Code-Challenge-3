@@ -58,6 +58,7 @@ You will need the following installed to run this project:
 ## Setup
 1. Clone the repository
         git@github.com:Gift-World/Phase-3-Code-Challenge-3.git
+        
 
 ### 2.Set up the database      
 #### Using SQLite
