@@ -247,6 +247,13 @@ def Venue_most_frequent_band(venue_id):
     band = cursor.fetchone()
     conn.close()
     return band
-
+# sample usage
 concert_introduction(1)
-Band_all_introductions(2)       
+Band_all_introductions(2)   
+print(get_concert_venue(1) ) 
+print(Venue_concert_on_date(1,"2024-10-05"))
+print(Venue_most_frequent_band(1))
+print(Band_most_performances())
+print(get_all_concerts(1))
+print(get_concert_band(1))
+ 
