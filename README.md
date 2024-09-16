@@ -38,16 +38,6 @@ The application consists of the following tables:
 - `venue_id` (Foreign Key from venues)
 - `date` (String representing the concert date)
 
-## Installation
-1. Clone the repository using the command below:
-
-        git clone  git@github.com:Gift-World/Phase-3-Code-Challenge-3.git
-       
-
-2. Run the application using the command below:
-        python concerts_database.py
-        
-
 
 ## Prerequisites
 You will need the following installed to run this project:
@@ -55,6 +45,34 @@ You will need the following installed to run this project:
 - Python 3.x
 - SQLite3 or PostgreSQL
 - sqlite3 library (built into Python) or psycopg2 for - - PostgreSQL
+- A text editor capable of running Python such as Visual Studio Code.
+
+
+## Installation
+### Alternative One
+To use this repo, follow these steps:
+1. Open the terminal/CLI on your computer.
+2. Clone this repository by running the following command:
+
+        git clone  git@github.com:Gift-World/Phase-3-Code-Challenge-3.git
+       
+3. Change directory to the repo folder:
+
+        cd Phase-3-Code-Challenge-3
+
+4. Open it in your Text Editor by running the command:
+        code .
+
+
+### Alternative Two
+
+- On the top right corner of this page there is a button labelled Fork.
+
+- Click on Fork to create a copy of the repository to your github account.
+
+- Follow the process described in Alternative One above.
+
+
 
 
 
