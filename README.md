@@ -89,4 +89,7 @@ To use this repo, follow these steps:
     This script will create the `bands`, `venues`, and `concerts` tables in an SQLite database named `concerts_database.db`.
 
 
+## Author
+
+- Charles Gift
 
